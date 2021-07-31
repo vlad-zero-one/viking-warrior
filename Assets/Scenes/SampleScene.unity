@@ -467,7 +467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273161994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.391, y: 0.596, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519420032}
@@ -486,8 +486,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44b1c9407c0703499e8faa1804c20fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  targetMove: {x: 0, y: 0, z: 0}
+  Healthpoints: 10
+  Speed: 3
+  Direction: SE
+  LastMoveDirection: {x: 1, y: -1}
+  AttackAngle: 90
+  SightAngle: 180
+  BaseAttack: 1
+  BaseAttackSpeed: 100
+  Level: 0
+  MaximumDamagablesToAttack: 1
+  attackFromUI: 0
+  bodyPartForAttackFromUI: 
 --- !u!70 &273161998
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1426,7 +1436,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078125722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.06, y: 0, z: 0}
+  m_LocalPosition: {x: 1.707, y: 1.961, z: 0}
   m_LocalScale: {x: 1, y: 1.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1481,6 +1491,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6ce702df7bc3a41828936f2842f461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Healthpoints: 10
+  Speed: 1
+  Direction: SE
+  LastMoveDirection: {x: 1, y: -1}
+  AttackAngle: 90
+  SightAngle: 180
+  BaseAttack: 1
+  BaseAttackSpeed: 100
+  Level: 1
 --- !u!1 &1214108236
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,6 +1591,7 @@ GameObject:
   - component: {fileID: 1330012656}
   - component: {fileID: 1330012655}
   - component: {fileID: 1330012654}
+  - component: {fileID: 1330012658}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -1672,12 +1692,33 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330012653}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.332, y: 1.398, z: 0}
+  m_LocalPosition: {x: 1.124, y: 1.967, z: 0}
   m_LocalScale: {x: 1, y: 1.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1330012658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330012653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b6ce702df7bc3a41828936f2842f461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Healthpoints: 10
+  Speed: 1
+  Direction: SE
+  LastMoveDirection: {x: 1, y: -1}
+  AttackAngle: 90
+  SightAngle: 180
+  BaseAttack: 1
+  BaseAttackSpeed: 100
+  Level: 1
 --- !u!1 &1459714895
 GameObject:
   m_ObjectHideFlags: 0

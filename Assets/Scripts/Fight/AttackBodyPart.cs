@@ -8,11 +8,20 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
     public bool attacked = false;
     public string bodyPart = "head";
 
-    Player player;
+    GameObject player;
+    PlayerController playerController;
 
     void Start()
     {
-        
+        player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+        }
+        else
+        {
+            throw new System.Exception("Can't find Player Game Object in scene!");
+        }
     }
 
     void Update()
@@ -22,15 +31,12 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData data)
     {
-        if (player == null)
-        {
-            player = PlayerController.player;
-        }
         if (!attacked)
         {
-            attacked = true;
             if (data.hovered.Count > 0)
             {
+                attacked = true;
+                StartCoroutine(Cooldown());
                 switch (data.hovered[0].name)
                 {
                     case "AttackHead":
@@ -43,7 +49,8 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
                         bodyPart = "legs";
                         break;
                 }
-                StartCoroutine(Cooldown());
+                playerController.attackFromUI = true;
+                playerController.bodyPartForAttackFromUI = bodyPart;
             }
         }
     }
@@ -51,7 +58,7 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
     IEnumerator Cooldown()
     {
         Debug.Log(bodyPart);
-        yield return new WaitForSeconds(100 / player.BaseAttackSpeed);
+        yield return new WaitForSeconds(100 / playerController.BaseAttackSpeed);
         attacked = false;
     }
 }
