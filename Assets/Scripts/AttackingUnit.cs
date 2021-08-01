@@ -10,7 +10,7 @@ public class AttackingUnit : MovingUnit
     public int BaseAttackSpeed = 100;
     bool attackIsInCooldown = false;
 
-    public void MeleeAttack(Damagable[] attackReceivers)
+    public void MeleeAttack(params Damagable[] attackReceivers)
     {
         //Debug.Log(attackIsInCooldown);
         if (!attackIsInCooldown)
@@ -20,7 +20,7 @@ public class AttackingUnit : MovingUnit
 
             foreach (Damagable damagable in attackReceivers)
             {
-                if (DamagableIsInRange(damagable))
+                if (IsDamagableInTheSightAngle(damagable))
                 {
                     damagable.TakeDamage(BaseAttack);
                 }
@@ -29,7 +29,7 @@ public class AttackingUnit : MovingUnit
     }
 
     // the function define possibility of attack BASED on AttackAngle of AttackingUnit
-    public bool DamagableIsInRange(Damagable damagable)
+    public bool IsDamagableInTheSightAngle(Damagable damagable)
     {
         Vector2 vecToDamagable = damagable.gameObject.transform.position - gameObject.transform.position;
 

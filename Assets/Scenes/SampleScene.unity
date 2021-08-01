@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 2995714}
   - component: {fileID: 2995717}
   - component: {fileID: 2995716}
-  - component: {fileID: 2995715}
   m_Layer: 5
   m_Name: JoystickHolder
   m_TagString: Untagged
@@ -159,20 +158,6 @@ RectTransform:
   m_AnchoredPosition: {x: -880, y: -340}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2995715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2995713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d804c84c10f65be4c936a124d7b03035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Range: 100
-  StickName: Joystick
 --- !u!114 &2995716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +391,7 @@ GameObject:
   - component: {fileID: 273162000}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -489,13 +474,15 @@ MonoBehaviour:
   Healthpoints: 10
   Speed: 3
   Direction: SE
-  LastMoveDirection: {x: 1, y: -1}
+  LastMoveDirection: {x: 0.70710677, y: -0.70710677}
   AttackAngle: 90
   SightAngle: 180
   BaseAttack: 1
   BaseAttackSpeed: 100
   Level: 0
   MaximumDamagablesToAttack: 1
+  ProvokedEnemies: []
+  makesNoise: 0
   attackFromUI: 0
   bodyPartForAttackFromUI: 
 --- !u!70 &273161998
@@ -1031,7 +1018,6 @@ GameObject:
   - component: {fileID: 830388897}
   - component: {fileID: 830388899}
   - component: {fileID: 830388898}
-  - component: {fileID: 830388900}
   m_Layer: 5
   m_Name: AttackLegs
   m_TagString: Untagged
@@ -1095,18 +1081,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 830388896}
   m_CullTransparentMesh: 0
---- !u!114 &830388900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 830388896}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f840bb97943af4fa8bfdd4af8461fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &833664232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,7 +1171,6 @@ GameObject:
   - component: {fileID: 975009437}
   - component: {fileID: 975009439}
   - component: {fileID: 975009438}
-  - component: {fileID: 975009440}
   m_Layer: 5
   m_Name: AttackTorso
   m_TagString: Untagged
@@ -1261,18 +1234,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975009436}
   m_CullTransparentMesh: 0
---- !u!114 &975009440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975009436}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 081679444a828c14687bd5adca63a829, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &995628706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,7 +1245,6 @@ GameObject:
   - component: {fileID: 995628707}
   - component: {fileID: 995628709}
   - component: {fileID: 995628708}
-  - component: {fileID: 995628710}
   m_Layer: 5
   m_Name: AttackHead
   m_TagString: Untagged
@@ -1348,18 +1308,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995628706}
   m_CullTransparentMesh: 0
---- !u!114 &995628710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 995628706}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4e2a181865dbaa49b809822a31eab1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1078125722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,6 +1321,7 @@ GameObject:
   - component: {fileID: 1078125726}
   - component: {fileID: 1078125725}
   - component: {fileID: 1078125727}
+  - component: {fileID: 1078125728}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1436,8 +1385,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078125722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.707, y: 1.961, z: 0}
-  m_LocalScale: {x: 1, y: 1.8, z: 1}
+  m_LocalPosition: {x: 2.3, y: 6.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -1494,12 +1443,31 @@ MonoBehaviour:
   Healthpoints: 10
   Speed: 1
   Direction: SE
-  LastMoveDirection: {x: 1, y: -1}
+  LastMoveDirection: {x: 0.70710677, y: -0.70710677}
   AttackAngle: 90
   SightAngle: 180
   BaseAttack: 1
   BaseAttackSpeed: 100
   Level: 1
+  SightRange: 5
+  HearingRange: 10
+  Atitude: hostile
+--- !u!58 &1078125728
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078125722}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5
 --- !u!1 &1214108236
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,6 +1560,7 @@ GameObject:
   - component: {fileID: 1330012655}
   - component: {fileID: 1330012654}
   - component: {fileID: 1330012658}
+  - component: {fileID: 1330012659}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -1693,7 +1662,7 @@ Transform:
   m_GameObject: {fileID: 1330012653}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.124, y: 1.967, z: 0}
-  m_LocalScale: {x: 1, y: 1.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -1713,12 +1682,31 @@ MonoBehaviour:
   Healthpoints: 10
   Speed: 1
   Direction: SE
-  LastMoveDirection: {x: 1, y: -1}
+  LastMoveDirection: {x: 0.70710677, y: -0.70710677}
   AttackAngle: 90
   SightAngle: 180
   BaseAttack: 1
   BaseAttackSpeed: 100
   Level: 1
+  SightRange: 5
+  HearingRange: 10
+  Atitude: hostile
+--- !u!58 &1330012659
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330012653}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5
 --- !u!1 &1459714895
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,7 +2121,6 @@ GameObject:
   - component: {fileID: 1841103780}
   - component: {fileID: 1841103783}
   - component: {fileID: 1841103782}
-  - component: {fileID: 1841103781}
   m_Layer: 5
   m_Name: JoystickHolder
   m_TagString: Untagged
@@ -2161,20 +2148,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1841103781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841103779}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d804c84c10f65be4c936a124d7b03035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Range: 100
-  StickName: Joystick
 --- !u!114 &1841103782
 MonoBehaviour:
   m_ObjectHideFlags: 0

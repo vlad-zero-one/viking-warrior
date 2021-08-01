@@ -9,14 +9,14 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
     public string bodyPart = "head";
 
     GameObject player;
-    PlayerController playerController;
+    PlayerUnit playerUnit;
 
     void Start()
     {
         player = GameObject.Find("Player");
         if (player != null)
         {
-            playerController = player.GetComponent<PlayerController>();
+            playerUnit = player.GetComponent<PlayerUnit>();
         }
         else
         {
@@ -49,8 +49,8 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
                         bodyPart = "legs";
                         break;
                 }
-                playerController.attackFromUI = true;
-                playerController.bodyPartForAttackFromUI = bodyPart;
+                playerUnit.attackFromUI = true;
+                playerUnit.bodyPartForAttackFromUI = bodyPart;
             }
         }
     }
@@ -58,7 +58,7 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
     IEnumerator Cooldown()
     {
         Debug.Log(bodyPart);
-        yield return new WaitForSeconds(100 / playerController.BaseAttackSpeed);
+        yield return new WaitForSeconds(100 / playerUnit.BaseAttackSpeed);
         attacked = false;
     }
 }

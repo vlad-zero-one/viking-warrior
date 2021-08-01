@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : AttackingUnit
+public class PlayerUnit : AttackingUnit
 {
     public int Level;
     // the maximum of the enemies can be attacked at the same time
     public int MaximumDamagablesToAttack = 1;
     // list of the current enemies that can be attacked at the same time
     List<Damagable> damagablesInAttackRange = new List<Damagable>();
+    public List<EnemyUnit> ProvokedEnemies = new List<EnemyUnit>();
+    public bool makesNoise = false;
 
     // UI attack control variables
     public bool attackFromUI = false;
@@ -26,7 +28,7 @@ public class PlayerController : AttackingUnit
         }
         if (damagablesInAttackRange.Count != 0)
         {
-            Debug.Log(damagablesInAttackRange.Count);
+            //Debug.Log(damagablesInAttackRange.Count);
             // mouse control
             if (Input.GetMouseButton(1))
             {
@@ -45,10 +47,10 @@ public class PlayerController : AttackingUnit
     void OnTriggerStay2D(Collider2D col)
     {
 
-        Damagable damagable = col.gameObject.GetComponent<EnemyController>();
+        Damagable damagable = col.gameObject.GetComponent<EnemyUnit>();
 
         // if the AttackAngle allows
-        if (DamagableIsInRange(damagable))
+        if (IsDamagableInTheSightAngle(damagable))
         {
             // and the maximum of the enemies can be attacked at the same time is higher than current Damagables in Range
             if (damagablesInAttackRange.Count < MaximumDamagablesToAttack)
@@ -67,11 +69,19 @@ public class PlayerController : AttackingUnit
                 damagablesInAttackRange.RemoveRange(MaximumDamagablesToAttack, damagablesInAttackRange.Count - MaximumDamagablesToAttack);
             }
         }
+        else
+        {
+            // remove it from damagablesInAttackRange if it was in this list
+            if (damagablesInAttackRange.Contains(damagable))
+            {
+                damagablesInAttackRange.Remove(damagable);
+            }
+        }
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
-        Damagable damagable = col.gameObject.GetComponent<EnemyController>();
+        Damagable damagable = col.gameObject.GetComponent<EnemyUnit>();
 
         if (damagablesInAttackRange.Contains(damagable))
         {
