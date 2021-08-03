@@ -14,6 +14,11 @@ public class EnemyUnit : AttackingUnit
     // variable for moving
     Vector3 lastSeenDamagablePosition;
 
+    public bool ProvokedByPlayer = false;
+    public bool ProvokedByEnemy = false;
+    GameObject ProvokatingEnemy;
+    Coroutine trackingCoroutine;
+
 
     public override void Die()
     {
@@ -26,46 +31,91 @@ public class EnemyUnit : AttackingUnit
         playerGO = GameObject.FindGameObjectWithTag("Player");
         playerUnit = playerGO.GetComponent<PlayerUnit>();
         lastSeenDamagablePosition = transform.position;
+        ProvokatingEnemy = gameObject;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        distanceToPlayer = Vector3.Magnitude(transform.position - playerGO.transform.position);
-        if (playerUnit.ProvokedEnemies.Count != 0)
+        if (ProvokedByPlayer)
         {
-            foreach(EnemyUnit provoked in playerUnit.ProvokedEnemies)
+            MoveNearTo(playerGO.transform.position);
+            distanceToPlayer = Vector2.Distance(playerGO.transform.position, transform.position);
+            if (distanceToPlayer < 0.7f)
             {
-                if (Vector3.Magnitude(transform.position - provoked.transform.position) < HearingRange)
+                MeleeAttack(playerUnit);
+            }
+        }
+        else if (ProvokedByEnemy)
+        {
+            MoveNearTo(ProvokatingEnemy.transform.position);
+        }
+    }
+
+
+     // The EnemyUnit may be provoked by Player and by other Enemies. If it's ProvokedByPlayer it can't be ProvokedByEnemy. And will go strictly to the Player
+    public void OnTriggerStay2D(Collider2D collider)
+    {
+        if (!collider.isTrigger)
+        {
+            if (ProvokedByPlayer)
+            {
+
+            }
+            else
+            {
+                if (collider.gameObject.tag == "Player")
                 {
-                    // ПРОВОКАЦИЯ !!!!!!!!!!
-                    break;
+                    ProvokedByPlayer = true;
+                }
+                else
+                {
+                    if (ProvokedByEnemy)
+                    {
+                        ProvokatingEnemy = collider.gameObject;
+                    }
+                    else
+                    {
+                        if (collider.tag == "Enemy")
+                        {
+                            if (collider.gameObject.GetComponent<EnemyUnit>().ProvokedByPlayer || collider.gameObject.GetComponent<EnemyUnit>().ProvokedByEnemy)
+                            {
+                                ProvokedByEnemy = true;
+                            }
+                        }
+                    }
                 }
             }
         }
-        if (IsDamagableSeen(playerUnit))
-        {
-            // ПРОВОКАЦИЯ !!!!!!!!!!!
-        }
-        else
-        {
-            // CHILL
-        }
-
-        //BehaviourWhenSeePlayer();
     }
 
-    public void Persuit(Damagable damagable)
+    public void OnTriggerExit2D(Collider2D collider)
     {
-        // if EnemuUnit sees whom he need to persuit
-        if (IsDamagableSeen(damagable))
+        if (!collider.isTrigger)
         {
-            lastSeenDamagablePosition = damagable.transform.position;
-            MoveNearTo(lastSeenDamagablePosition);
+            if (ProvokedByPlayer == true)
+            {
+                if (collider.gameObject.tag == "Player")
+                {
+                    StartCoroutine(PlayerTracking());
+                }
+            }
+            else
+            {
+                if (collider.gameObject.tag == "Enemy")
+                {
+                    if (ProvokedByEnemy)
+                    {
+                        ProvokedByEnemy = false;
+                    }
+                }
+            }
         }
-        else
-        {
-            MoveNearTo(lastSeenDamagablePosition);
-        }
+    }
+
+    IEnumerator PlayerTracking()
+    {
+        yield return new WaitForSeconds(2);
+        ProvokedByPlayer = false;
     }
 
     public void IdleBehaviour()
@@ -75,7 +125,7 @@ public class EnemyUnit : AttackingUnit
 
     public void BehaviourWhenSeePlayer()
     {
-        Persuit(playerUnit);
+        //Persuit(playerUnit);
     }
 
     public void Patroling( )

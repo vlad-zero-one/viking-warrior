@@ -10,7 +10,7 @@ public class PlayerUnit : AttackingUnit
     // list of the current enemies that can be attacked at the same time
     List<Damagable> damagablesInAttackRange = new List<Damagable>();
     public List<EnemyUnit> ProvokedEnemies = new List<EnemyUnit>();
-    public bool makesNoise = false;
+    public bool Silent = true;
 
     // UI attack control variables
     public bool attackFromUI = false;
@@ -44,48 +44,53 @@ public class PlayerUnit : AttackingUnit
         }
     }
 
-    void OnTriggerStay2D(Collider2D col)
+    void OnTriggerStay2D(Collider2D collider)
     {
-
-        Damagable damagable = col.gameObject.GetComponent<EnemyUnit>();
-
-        // if the AttackAngle allows
-        if (IsDamagableInTheSightAngle(damagable))
+        if (!collider.isTrigger && collider.tag == "Enemy")
         {
-            // and the maximum of the enemies can be attacked at the same time is higher than current Damagables in Range
-            if (damagablesInAttackRange.Count < MaximumDamagablesToAttack)
+            Damagable damagable = collider.gameObject.GetComponent<EnemyUnit>();
+
+            // if the AttackAngle allows
+            if (IsDamagableInTheSightAngle(damagable))
             {
-                // and the Damagable not in List yet
-                if (!damagablesInAttackRange.Contains(damagable))
+                // and the maximum of the enemies can be attacked at the same time is higher than current Damagables in Range
+                if (damagablesInAttackRange.Count < MaximumDamagablesToAttack)
                 {
-                    // add it
-                    damagablesInAttackRange.Add(damagable);
+                    // and the Damagable not in List yet
+                    if (!damagablesInAttackRange.Contains(damagable))
+                    {
+                        // add it
+                        damagablesInAttackRange.Add(damagable);
+                    }
+                }
+                // but if the maximum of the enemies that can be attacked at the same time is lower than maximum we should resize to exact range
+                else if (damagablesInAttackRange.Count > MaximumDamagablesToAttack)
+                {
+                    // from the index that is also maximum, remove the-difference-between-maximum-and-current number of objects
+                    damagablesInAttackRange.RemoveRange(MaximumDamagablesToAttack, damagablesInAttackRange.Count - MaximumDamagablesToAttack);
                 }
             }
-            // but if the maximum of the enemies that can be attacked at the same time is lower than maximum we should resize to exact range
-            else if (damagablesInAttackRange.Count > MaximumDamagablesToAttack)
+            else
             {
-                // from the index that is also maximum, remove the-difference-between-maximum-and-current number of objects
-                damagablesInAttackRange.RemoveRange(MaximumDamagablesToAttack, damagablesInAttackRange.Count - MaximumDamagablesToAttack);
-            }
-        }
-        else
-        {
-            // remove it from damagablesInAttackRange if it was in this list
-            if (damagablesInAttackRange.Contains(damagable))
-            {
-                damagablesInAttackRange.Remove(damagable);
+                // remove it from damagablesInAttackRange if it was in this list
+                if (damagablesInAttackRange.Contains(damagable))
+                {
+                    damagablesInAttackRange.Remove(damagable);
+                }
             }
         }
     }
 
-    void OnTriggerExit2D(Collider2D col)
+    void OnTriggerExit2D(Collider2D collider)
     {
-        Damagable damagable = col.gameObject.GetComponent<EnemyUnit>();
-
-        if (damagablesInAttackRange.Contains(damagable))
+        if (!collider.isTrigger && collider.tag == "Enemy")
         {
-            damagablesInAttackRange.Remove(damagable);
+            Damagable damagable = collider.gameObject.GetComponent<EnemyUnit>();
+
+            if (damagablesInAttackRange.Contains(damagable))
+            {
+                damagablesInAttackRange.Remove(damagable);
+            }
         }
     }
 

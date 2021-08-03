@@ -452,7 +452,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273161994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.391, y: 0.596, z: 0}
+  m_LocalPosition: {x: 1.391, y: -1.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519420032}
@@ -1324,7 +1324,7 @@ GameObject:
   - component: {fileID: 1078125728}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1441,7 +1441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Healthpoints: 10
-  Speed: 1
+  Speed: 2
   Direction: SE
   LastMoveDirection: {x: 0.70710677, y: -0.70710677}
   AttackAngle: 90
@@ -1452,6 +1452,7 @@ MonoBehaviour:
   SightRange: 5
   HearingRange: 10
   Atitude: hostile
+  Provoked: 0
 --- !u!58 &1078125728
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1563,7 +1564,7 @@ GameObject:
   - component: {fileID: 1330012659}
   m_Layer: 0
   m_Name: Enemy (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1691,6 +1692,7 @@ MonoBehaviour:
   SightRange: 5
   HearingRange: 10
   Atitude: hostile
+  Provoked: 0
 --- !u!58 &1330012659
 CircleCollider2D:
   m_ObjectHideFlags: 0

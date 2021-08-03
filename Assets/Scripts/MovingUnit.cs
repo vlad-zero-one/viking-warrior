@@ -15,9 +15,9 @@ public class MovingUnit : Damagable
     }
 
     // move closely to the point
-    public void MoveNearTo(Vector3 finishPoint, float leavingArea = 0.5f)
+    public void MoveNearTo(Vector3 finishPoint, float bufferArea = 0.5f)
     {
-        if(Vector3.Magnitude(finishPoint - transform.position) > leavingArea)
+        if(Vector3.Magnitude(finishPoint - transform.position) > bufferArea)
         {
             Move(finishPoint - transform.position);
         }
