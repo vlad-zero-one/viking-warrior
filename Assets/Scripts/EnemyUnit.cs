@@ -8,17 +8,16 @@ public class EnemyUnit : AttackingUnit
     public int SightRange = 5;
     public int HearingRange = 10;
     public string Atitude = "hostile";
-    GameObject playerGO;
-    PlayerUnit playerUnit;
-    float distanceToPlayer;
-    // variable for moving
-    Vector3 lastSeenDamagablePosition;
 
     public bool ProvokedByPlayer = false;
     public bool ProvokedByEnemy = false;
-    GameObject ProvokatingEnemy;
-    Coroutine trackingCoroutine;
-
+    public bool TryFindPlayer = false;
+    Vector2 findPlayerTarget;
+    Vector2 lastSeenPlayerPosition;
+    Vector2 lastSeenProvokedEnemyPosition;
+    Coroutine pursuitEnenmyCoroutine;
+    PlayerUnit playerUnit;
+    Vector2 defaultPosition;
 
     public override void Die()
     {
@@ -27,62 +26,67 @@ public class EnemyUnit : AttackingUnit
 
     void Start()
     {
-        //Healthpoints = 3;
-        playerGO = GameObject.FindGameObjectWithTag("Player");
-        playerUnit = playerGO.GetComponent<PlayerUnit>();
-        lastSeenDamagablePosition = transform.position;
-        ProvokatingEnemy = gameObject;
+        playerUnit = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUnit>();
+        defaultPosition = transform.position;
     }
 
     void FixedUpdate()
     {
         if (ProvokedByPlayer)
         {
-            MoveNearTo(playerGO.transform.position);
-            distanceToPlayer = Vector2.Distance(playerGO.transform.position, transform.position);
-            if (distanceToPlayer < 0.7f)
+            if (Vector2.Distance(transform.position, lastSeenPlayerPosition) > 0.7f)
+            {
+                MoveNearTo(lastSeenPlayerPosition, 0.7f);
+            }
+            if (Vector2.Distance(transform.position, playerUnit.transform.position) < 0.7f)
             {
                 MeleeAttack(playerUnit);
             }
+            TryFindPlayer = true;
         }
         else if (ProvokedByEnemy)
         {
-            MoveNearTo(ProvokatingEnemy.transform.position);
+            MoveNearTo(lastSeenProvokedEnemyPosition, 0.7f);
+        }
+        else if (TryFindPlayer)
+        {
+            if (findPlayerTarget == null)
+            {
+                findPlayerTarget = new Vector2(transform.position.x + Random.Range(-SightRange, SightRange), transform.position.y + Random.Range(-SightRange, SightRange));
+            }
+            if (Vector2.Distance(findPlayerTarget, transform.position) > 1f)
+            {
+                MoveNearTo(findPlayerTarget);
+            }
+            else
+            {
+                findPlayerTarget = new Vector2();
+                TryFindPlayer = false;
+            }
+        }
+        else
+        {
+            MoveNearTo(defaultPosition);
         }
     }
 
-
-     // The EnemyUnit may be provoked by Player and by other Enemies. If it's ProvokedByPlayer it can't be ProvokedByEnemy. And will go strictly to the Player
     public void OnTriggerStay2D(Collider2D collider)
     {
         if (!collider.isTrigger)
         {
-            if (ProvokedByPlayer)
+            if (collider.gameObject.tag == "Player")
             {
-
+                ProvokedByPlayer = true;
+                ProvokedByEnemy = false;
+                lastSeenPlayerPosition = collider.transform.position;
             }
-            else
+            else if (collider.gameObject.tag == "Enemy" && collider.gameObject.GetComponent<EnemyUnit>().ProvokedByPlayer)
             {
-                if (collider.gameObject.tag == "Player")
+                ProvokedByEnemy = true;
+                lastSeenProvokedEnemyPosition = collider.transform.position;
+                if (pursuitEnenmyCoroutine == null)
                 {
-                    ProvokedByPlayer = true;
-                }
-                else
-                {
-                    if (ProvokedByEnemy)
-                    {
-                        ProvokatingEnemy = collider.gameObject;
-                    }
-                    else
-                    {
-                        if (collider.tag == "Enemy")
-                        {
-                            if (collider.gameObject.GetComponent<EnemyUnit>().ProvokedByPlayer || collider.gameObject.GetComponent<EnemyUnit>().ProvokedByEnemy)
-                            {
-                                ProvokedByEnemy = true;
-                            }
-                        }
-                    }
+                    pursuitEnenmyCoroutine = StartCoroutine(PursuitEnemy());
                 }
             }
         }
@@ -92,31 +96,30 @@ public class EnemyUnit : AttackingUnit
     {
         if (!collider.isTrigger)
         {
-            if (ProvokedByPlayer == true)
+            if (collider.gameObject.tag == "Player")
             {
-                if (collider.gameObject.tag == "Player")
-                {
-                    StartCoroutine(PlayerTracking());
-                }
+                StartCoroutine(PursuitPlayer());
             }
-            else
+            if (collider.gameObject.tag == "Enemy")
             {
-                if (collider.gameObject.tag == "Enemy")
-                {
-                    if (ProvokedByEnemy)
-                    {
-                        ProvokedByEnemy = false;
-                    }
-                }
+                StartCoroutine(PursuitEnemy());
             }
         }
     }
 
-    IEnumerator PlayerTracking()
+    IEnumerator PursuitPlayer()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         ProvokedByPlayer = false;
     }
+
+    IEnumerator PursuitEnemy()
+    {
+        yield return new WaitForSeconds(3);
+        ProvokedByEnemy = false;
+        pursuitEnenmyCoroutine = null;
+    }
+
 
     public void IdleBehaviour()
     {
@@ -125,7 +128,7 @@ public class EnemyUnit : AttackingUnit
 
     public void BehaviourWhenSeePlayer()
     {
-        //Persuit(playerUnit);
+        //Pursuit(playerUnit);
     }
 
     public void Patroling( )
