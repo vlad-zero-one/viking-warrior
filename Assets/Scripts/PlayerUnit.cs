@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUnit : AttackingUnit
+public class PlayerUnit : EquippedUnit
 {
     public int Level;
     // the maximum of the enemies can be attacked at the same time
@@ -18,6 +18,14 @@ public class PlayerUnit : AttackingUnit
 
     void Start()
     {
+        _animator = GetComponent<Animator>();
+
+        BodyItem helmet = CreateBodyItem("Head", new Item("Helmet", 120));
+
+        var oldItem = SwapItem(new BodyItem("Head", new Item("Mask", 10)));
+
+        Debug.Log(oldItem.Bodypart + " " + oldItem.Item.Name);
+
     }
 
     void Update()
@@ -25,6 +33,11 @@ public class PlayerUnit : AttackingUnit
         if (TouchPadMove.moveDirection != Vector2.zero)
         {
             Move(TouchPadMove.moveDirection);
+        }
+        else
+        {
+            //_animator.SetBool("isMoving", false);
+            _animator.Play("Idle" + Direction);
         }
         if (damagablesInAttackRange.Count != 0)
         {

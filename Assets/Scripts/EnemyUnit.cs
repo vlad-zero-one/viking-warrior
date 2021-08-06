@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyUnit : AttackingUnit
+public class EnemyUnit : EquippedUnit
 {
     public int Level = 1;
     public int SightRange = 5;

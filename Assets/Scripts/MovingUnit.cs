@@ -1,17 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum DirEnum
+{
+    SE,
+    S,
+    SW,
+    W,
+    NW,
+    N,
+    NE,
+    E
+}
+
 public class MovingUnit : Damagable
 {
     public int Speed = 1;
-    public string Direction = "SE";
+    public string Direction = DirEnum.SE.ToString();
+    protected Animator _animator;
+
     public Vector2 LastMoveDirection = new Vector2(1, -1).normalized;
+
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     public void Move(Vector2 moveDirection)
     {
         gameObject.transform.Translate(moveDirection.normalized * Speed * Time.deltaTime);
         //Debug.Log(gameObject.name + " SPEED: " + Speed + " DELTA: " + Time.deltaTime);
-        Direction = GetDirectionStr(moveDirection.normalized);
+        Direction = GetDirection(moveDirection.normalized).ToString();
+        //_animator.SetInteger("intDirection", (int)GetDirection(moveDirection.normalized));
+        //_animator.SetBool("isMoving", true);
+        _animator.Play("Moving" + Direction);
         LastMoveDirection = moveDirection.normalized;
     }
 
@@ -24,9 +46,9 @@ public class MovingUnit : Damagable
         }
     }
 
-    public string GetDirectionStr(Vector2 moveDirection)
+    public DirEnum GetDirection(Vector2 moveDirection)
     {
-        string returnDirection = "SE";
+        DirEnum returnDirection = DirEnum.SE;
 
         // getting the angle between X axis and move direction, about 45 degrees for each direction
         float angle = Vector2.SignedAngle(moveDirection.normalized, Vector2.right);
@@ -35,19 +57,19 @@ public class MovingUnit : Damagable
         {
             if (angle > 0)
             {
-                if (angle < 23) returnDirection = "E";
-                else if (angle < 68) returnDirection = "SE";
-                else if (angle < 113) returnDirection = "S";
-                else if (angle < 158) returnDirection = "SW";
-                else returnDirection = "W";
+                if (angle < 23) returnDirection = DirEnum.E;
+                else if (angle < 68) returnDirection = DirEnum.SE;
+                else if (angle < 113) returnDirection = DirEnum.S;
+                else if (angle < 158) returnDirection = DirEnum.SW;
+                else returnDirection = DirEnum.W;
             }
             else
             {
-                if (angle > -23) returnDirection = "E";
-                else if (angle > -68) returnDirection = "NE";
-                else if (angle > -113) returnDirection = "N";
-                else if (angle > -158) returnDirection = "NW";
-                else returnDirection = "W";
+                if (angle > -23) returnDirection = DirEnum.E;
+                else if (angle > -68) returnDirection = DirEnum.NE;
+                else if (angle > -113) returnDirection = DirEnum.N;
+                else if (angle > -158) returnDirection = DirEnum.NW;
+                else returnDirection = DirEnum.W;
             }
         }
 
