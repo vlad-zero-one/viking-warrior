@@ -33,8 +33,8 @@ public class MovingUnit : Damagable
         Direction = GetDirection(moveDirection.normalized).ToString();
         //_animator.SetInteger("intDirection", (int)GetDirection(moveDirection.normalized));
         //_animator.SetBool("isMoving", true);
-        _animator.Play("Moving" + Direction);
         LastMoveDirection = moveDirection.normalized;
+        _animator.Play("Moving" + Direction);
     }
 
     // move closely to the point
