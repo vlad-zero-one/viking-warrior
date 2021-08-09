@@ -30,6 +30,12 @@ public class PlayerUnit : EquippedUnit
 
     void Update()
     {
+        if (Input.GetMouseButton(1))
+        {
+            _animator.Play("AttackingE");
+        }
+
+
         if (TouchPadMove.moveDirection != Vector2.zero)
         {
             Move(TouchPadMove.moveDirection);
