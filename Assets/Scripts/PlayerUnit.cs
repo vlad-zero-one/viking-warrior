@@ -24,17 +24,18 @@ public class PlayerUnit : EquippedUnit
 
         var oldItem = SwapItem(new BodyItem("Head", new Item("Mask", 10)));
 
-        Debug.Log(oldItem.Bodypart + " " + oldItem.Item.Name);
+        //Debug.Log(oldItem.Bodypart + " " + oldItem.Item.Name);
 
     }
 
     void Update()
     {
+        /*
         if (Input.GetMouseButton(1))
         {
             _animator.Play("AttackingE");
         }
-
+        */
 
         if (TouchPadMove.moveDirection != Vector2.zero)
         {

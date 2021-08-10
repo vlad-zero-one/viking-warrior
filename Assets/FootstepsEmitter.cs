@@ -8,48 +8,63 @@ public class FootstepsEmitter : MonoBehaviour
     public GameObject footstepPrefab;
     GameObject parentInHierarchy, footstep;
     MovingUnit unit;
-    Vector2 lastPosition;
-    bool flipper = true;
     float rotateAngle;
+    List<GameObject> footstepsBuffer = new List<GameObject>();
+
+    AudioClip[] footstepsAudio;
+    AudioSource audioSource;
+
+    Vector3 lastPosition;
 
     void Start()
     {
         parentInHierarchy = GameObject.Find("Footsteps");
         unit = gameObject.GetComponent<MovingUnit>();
-        lastPosition = transform.position;
+        footstepsAudio = Resources.LoadAll<AudioClip>("Footstep(Snow and Grass)");
+        audioSource = GetComponent<AudioSource>();
 
-        footstep = Instantiate(footstepPrefab, transform.position, Quaternion.Euler(0, 0, -45), parentInHierarchy.transform);
-        StartCoroutine(DeleteFootstep(footstep));
-        footstep = Instantiate(footstepPrefab, transform.position, Quaternion.Euler(0, 0, -45), parentInHierarchy.transform);
-        footstep.GetComponent<SpriteRenderer>().flipY = true;
-        StartCoroutine(DeleteFootstep(footstep));
     }
 
-    void Update()
+    public void EmitIdleFootsteps()
     {
-        if(Vector2.Distance(lastPosition, transform.position) > 1f)
+        if (transform.position != lastPosition)
         {
-            rotateAngle = Vector2.SignedAngle(Vector2.right, unit.LastMoveDirection);
-
-            footstep = Instantiate(footstepPrefab, transform.position, Quaternion.Euler(0, 0, rotateAngle), parentInHierarchy.transform);
-            if (flipper)
-            {
-                footstep.GetComponent<SpriteRenderer>().flipY = true;
-                flipper = false;
-            }
-            else
-            {
-                flipper = true;
-            }
-            lastPosition = transform.position;
-            StartCoroutine(DeleteFootstep(footstep));
+            EmitFootstepLeft();
+            EmitFootstepRight();
         }
     }
 
-    IEnumerator DeleteFootstep(GameObject footstepInstance)
+    GameObject EmitFootstep()
     {
-        yield return new WaitForSeconds(120);
-        Destroy(footstepInstance);
+        rotateAngle = Vector2.SignedAngle(Vector2.right, unit.LastMoveDirection) + Random.Range(-5f, 5f);
+        if (footstepsBuffer.Count < 10)
+        {
+            footstep = Instantiate(footstepPrefab, transform.position, Quaternion.Euler(45, 0, rotateAngle), parentInHierarchy.transform);
+        }
+        else
+        {
+            footstep = footstepsBuffer[0];
+            footstepsBuffer.RemoveAt(0);
+            footstep.transform.rotation = Quaternion.Euler(45, 0, rotateAngle);
+            footstep.transform.position = transform.position;
+        }
+        footstepsBuffer.Add(footstep);
+
+        audioSource.clip = footstepsAudio[Random.Range(0, 29)];
+        audioSource.Play();
+
+        lastPosition = footstep.transform.position;
+
+        return footstep;
     }
 
+    public void EmitFootstepRight()
+    {
+        EmitFootstep().GetComponent<SpriteRenderer>().flipY = false;
+    }
+
+    public void EmitFootstepLeft()
+    {
+        EmitFootstep().GetComponent<SpriteRenderer>().flipY = true;
+    }
 }

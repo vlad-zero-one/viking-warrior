@@ -22,7 +22,25 @@ public class TouchPadMove : MonoBehaviour, IDragHandler, IEndDragHandler
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.W))
+        {
+            moveDirection = Vector2.up;
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            moveDirection = Vector2.left;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            moveDirection = Vector2.down;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            moveDirection = Vector2.right;
+        }
+        else
+        {
+        }
     }
 
     public void OnDrag(PointerEventData data)

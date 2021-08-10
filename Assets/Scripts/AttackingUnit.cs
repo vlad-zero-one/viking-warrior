@@ -15,6 +15,7 @@ public class AttackingUnit : MovingUnit
         //Debug.Log(attackIsInCooldown);
         if (!attackIsInCooldown)
         {
+            _animator.Play("AttackingE");
             attackIsInCooldown = true;
             StartCoroutine(AttackCooldown(BaseAttackSpeed));
 
