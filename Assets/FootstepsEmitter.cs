@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class FootstepsEmitter : MonoBehaviour
@@ -9,7 +8,7 @@ public class FootstepsEmitter : MonoBehaviour
     GameObject parentInHierarchy, footstep;
     MovingUnit unit;
     float rotateAngle;
-    List<GameObject> footstepsBuffer = new List<GameObject>();
+    Queue<GameObject> footstepsBuffer = new Queue<GameObject>();
 
     AudioClip[] footstepsAudio;
     AudioSource audioSource;
@@ -22,7 +21,6 @@ public class FootstepsEmitter : MonoBehaviour
         unit = gameObject.GetComponent<MovingUnit>();
         footstepsAudio = Resources.LoadAll<AudioClip>("Footstep(Snow and Grass)");
         audioSource = GetComponent<AudioSource>();
-
     }
 
     public void EmitIdleFootsteps()
@@ -43,12 +41,11 @@ public class FootstepsEmitter : MonoBehaviour
         }
         else
         {
-            footstep = footstepsBuffer[0];
-            footstepsBuffer.RemoveAt(0);
+            footstep = footstepsBuffer.Dequeue();
             footstep.transform.rotation = Quaternion.Euler(45, 0, rotateAngle);
             footstep.transform.position = transform.position;
         }
-        footstepsBuffer.Add(footstep);
+        footstepsBuffer.Enqueue(footstep);
 
         audioSource.clip = footstepsAudio[Random.Range(0, 29)];
         audioSource.Play();

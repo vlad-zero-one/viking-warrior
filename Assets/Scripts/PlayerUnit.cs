@@ -1,16 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerUnit : EquippedUnit
 {
-    public int Level;
+    public int Level = 1;
+    public int AvailableSkillPoints = 0;
+    public float Experience;
+    public float ExperienceToTheNextLevel = 10;
+
+    public float MaximumHealthpoints = 20;
+
     // the maximum of the enemies can be attacked at the same time
     public int MaximumDamagablesToAttack = 1;
     // list of the current enemies that can be attacked at the same time
     List<Damagable> damagablesInAttackRange = new List<Damagable>();
-    public List<EnemyUnit> ProvokedEnemies = new List<EnemyUnit>();
     public bool Silent = true;
+    bool isAttacking;
+    Coroutine currentlyAttacking;
 
     // UI attack control variables
     public bool attackFromUI = false;
@@ -23,36 +31,32 @@ public class PlayerUnit : EquippedUnit
         BodyItem helmet = CreateBodyItem("Head", new Item("Helmet", 120));
 
         var oldItem = SwapItem(new BodyItem("Head", new Item("Mask", 10)));
-
-        //Debug.Log(oldItem.Bodypart + " " + oldItem.Item.Name);
-
     }
 
     void Update()
     {
-        /*
-        if (Input.GetMouseButton(1))
-        {
-            _animator.Play("AttackingE");
-        }
-        */
 
-        if (TouchPadMove.moveDirection != Vector2.zero)
+        Debug.DrawLine(transform.position, (transform.position + (Vector3)LastMoveDirection * 0.7f), Color.red);
+
+        if (!isAttacking)
         {
-            Move(TouchPadMove.moveDirection);
-        }
-        else
-        {
-            //_animator.SetBool("isMoving", false);
-            _animator.Play("Idle" + Direction);
+            if (TouchPadMove.moveDirection != Vector2.zero)
+            {
+                Move(TouchPadMove.moveDirection);
+            }
+            else
+            {
+                _animator.Play("Idle" + Direction);
+            }
         }
         if (damagablesInAttackRange.Count != 0)
         {
-            //Debug.Log(damagablesInAttackRange.Count);
             // mouse control
             if (Input.GetMouseButton(1))
             {
                 MeleeAttack(damagablesInAttackRange.ToArray());
+                if (currentlyAttacking == null)
+                    currentlyAttacking = StartCoroutine(AttackingAnimation());
             }
             // touch control
             if (attackFromUI)
@@ -60,13 +64,23 @@ public class PlayerUnit : EquippedUnit
                 MeleeAttack(damagablesInAttackRange.ToArray());
                 // drop the signal flag from UI
                 attackFromUI = false;
+                if (currentlyAttacking == null)
+                    currentlyAttacking = StartCoroutine(AttackingAnimation());
             }
         }
     }
 
+    IEnumerator AttackingAnimation()
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(0.5f);
+        isAttacking = false;
+        currentlyAttacking = null;
+    }
+
     void OnTriggerStay2D(Collider2D collider)
     {
-        if (!collider.isTrigger && collider.tag == "Enemy")
+        if (!collider.isTrigger && collider.CompareTag("Enemy"))
         {
             Damagable damagable = collider.gameObject.GetComponent<EnemyUnit>();
 
@@ -98,12 +112,12 @@ public class PlayerUnit : EquippedUnit
                     damagablesInAttackRange.Remove(damagable);
                 }
             }
-        }
+        }      
     }
-
+ 
     void OnTriggerExit2D(Collider2D collider)
     {
-        if (!collider.isTrigger && collider.tag == "Enemy")
+        if (!collider.isTrigger && collider.CompareTag("Enemy"))
         {
             Damagable damagable = collider.gameObject.GetComponent<EnemyUnit>();
 
@@ -116,6 +130,29 @@ public class PlayerUnit : EquippedUnit
 
     public override void Die()
     {
+        DropExperience();
+    }
 
+    public void AddExperience(float experience)
+    {
+        Experience += experience;
+        if (Experience >= ExperienceToTheNextLevel)
+        {
+            LevelUp();
+            Experience -= ExperienceToTheNextLevel;
+            ExperienceToTheNextLevel = ExperienceToTheNextLevel * 1.1f;
+        }
+    }
+
+    private void LevelUp()
+    {
+        Level++;
+        AvailableSkillPoints++;
+    }
+
+    public void DropExperience()
+    {
+        Experience = 0;
     }
 }
+

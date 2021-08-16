@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PlayerEquipmentManager : MonoBehaviour, IPointerClickHandler//, IPointerDownHandler, IPointerUpHandler
+public class PlayerEquipmentManager : MonoBehaviour, IPointerClickHandler
 {
     GameObject player;
     float clickStartedTime;
@@ -17,15 +17,11 @@ public class PlayerEquipmentManager : MonoBehaviour, IPointerClickHandler//, IPo
     void OnEnable()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-
         Transform playerEquipment = transform.Find("PlayerEquipment");
-
         itemInfo = playerEquipment.Find("ItemInfo");
-        //Transform slot;
 
         foreach (var equiped in player.GetComponent<PlayerUnit>().EquippedItems)
         {
-            //slot = playerEquipment.Find(equiped.Bodypart + "Item");
             if (playerEquipment.Find(equiped.Bodypart + "Item"))
             {
                 playerEquipment.Find(equiped.Bodypart + "Item").GetComponent<Image>().color = new Color(0.1f, 1f, 0.3f, 0.5f);
@@ -38,7 +34,6 @@ public class PlayerEquipmentManager : MonoBehaviour, IPointerClickHandler//, IPo
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -61,59 +56,4 @@ public class PlayerEquipmentManager : MonoBehaviour, IPointerClickHandler//, IPo
             }
         }
     }
-    /*
-    public void OnPointerDown(PointerEventData data)
-    {
-        clickStartedTime = Time.fixedTime;
-
-        if (data.hovered.Count > 0)
-        {
-            pressedSlot = data.hovered[0];
-            if (occupiedSlots.ContainsKey(pressedSlot.name))
-            {
-                if (writeItemInfo != null)
-                {
-                    StopCoroutine(writeItemInfo);
-                }
-                apearingText = occupiedSlots[pressedSlot.name];
-                writeItemInfo = StartCoroutine(PrintItemInfo());
-            }
-        }
-    }
-
-    IEnumerator PrintItemInfo()
-    {
-        yield return new WaitForSeconds(1);
-        var textComp = pressedSlot.transform.GetChild(0).gameObject;
-        textComp.SetActive(true);
-        textComp.GetComponent<Text>().text = apearingText;
-
-    }
-
-    public void OnPointerUp(PointerEventData data)
-    {
-        if (Time.fixedTime - clickStartedTime > 2f)
-        {
-            if (data.hovered.Count > 0)
-            {
-                pressedSlot = data.hovered[0];
-                if (occupiedSlots.ContainsKey(pressedSlot.name))
-                {
-                    if (writeItemInfo != null)
-                    {
-                        StopCoroutine(writeItemInfo);
-                    }
-                    foreach (var item in player.GetComponent<PlayerUnit>().EquippedItems)
-                    {
-                        if (item.Bodypart + "Item" == pressedSlot.name)
-                        {
-                            player.GetComponent<PlayerUnit>().EquippedItems.Remove(item);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    */
 }

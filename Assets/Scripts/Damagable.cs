@@ -5,7 +5,7 @@ using System.Collections;
 
 public class Damagable : MonoBehaviour
 {
-    public int Healthpoints = 10;
+    public float Healthpoints = 10;
 
     public void TakeDamage(int damage)
     {

@@ -57,7 +57,6 @@ public class AttackBodyPart : MonoBehaviour, IPointerDownHandler
 
     IEnumerator Cooldown()
     {
-        Debug.Log(bodyPart);
         yield return new WaitForSeconds(100 / playerUnit.BaseAttackSpeed);
         attacked = false;
     }

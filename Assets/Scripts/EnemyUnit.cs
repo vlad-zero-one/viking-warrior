@@ -18,16 +18,20 @@ public class EnemyUnit : EquippedUnit
     Coroutine pursuitEnenmyCoroutine;
     PlayerUnit playerUnit;
     Vector2 defaultPosition;
+    int giveExpirienceWhenDie = 1;
 
     public override void Die()
     {
         Destroy(gameObject);
+        playerUnit.AddExperience(giveExpirienceWhenDie * Level);
     }
 
     void Start()
     {
         playerUnit = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUnit>();
         defaultPosition = transform.position;
+        _animator = GetComponent<Animator>();
+
     }
 
     void FixedUpdate()

@@ -12,7 +12,6 @@ public class AttackingUnit : MovingUnit
 
     public void MeleeAttack(params Damagable[] attackReceivers)
     {
-        //Debug.Log(attackIsInCooldown);
         if (!attackIsInCooldown)
         {
             _animator.Play("AttackingE");
@@ -35,7 +34,6 @@ public class AttackingUnit : MovingUnit
         Vector2 vecToDamagable = damagable.gameObject.transform.position - gameObject.transform.position;
 
         float angleToCol = Vector2.Angle(LastMoveDirection, vecToDamagable);
-        //Debug.Log(angleToCol);
 
         // if damagable is in the attack angle, damager may hit him
         if (angleToCol <= AttackAngle / 2)
@@ -53,4 +51,12 @@ public class AttackingUnit : MovingUnit
         yield return new WaitForSeconds(100 / attackSpeed);
         attackIsInCooldown = false;
     }
+
+    /*
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + (Vector3)LastMoveDirection);
+    }
+    */
 }
