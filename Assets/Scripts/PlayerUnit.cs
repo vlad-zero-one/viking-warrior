@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerUnit : EquippedUnit
 {
@@ -23,6 +24,10 @@ public class PlayerUnit : EquippedUnit
     // UI attack control variables
     public bool attackFromUI = false;
     public string bodyPartForAttackFromUI;
+
+    [SerializeField] private ExperienceChangeEvent _experienceChangeEvent;
+    //[SerializeField] private LevelUpEvent _levelUpEvent;
+    [SerializeField] private UnityEvent _levelUpEvent;
 
     void Start()
     {
@@ -136,23 +141,33 @@ public class PlayerUnit : EquippedUnit
     public void AddExperience(float experience)
     {
         Experience += experience;
+        _experienceChangeEvent.Invoke(experience);
         if (Experience >= ExperienceToTheNextLevel)
         {
-            LevelUp();
             Experience -= ExperienceToTheNextLevel;
+            _experienceChangeEvent.Invoke(-ExperienceToTheNextLevel + Experience);
             ExperienceToTheNextLevel = ExperienceToTheNextLevel * 1.1f;
+            LevelUp();
         }
     }
 
     private void LevelUp()
     {
+        _levelUpEvent.Invoke();
         Level++;
         AvailableSkillPoints++;
+        //_levelUpEvent.Invoke();
     }
 
     public void DropExperience()
     {
+        // current exp should be given to the enemies
         Experience = 0;
     }
-}
 
+    [Serializable]
+    private class ExperienceChangeEvent : UnityEvent<float> { }
+
+    //[Serializable]
+    //private class LevelUpEvent : UnityEvent<float> { }
+}

@@ -10,26 +10,19 @@ public class FootstepsEmitter : MonoBehaviour
     float rotateAngle;
     Queue<GameObject> footstepsBuffer = new Queue<GameObject>();
 
-    AudioClip[] footstepsAudio;
     AudioSource audioSource;
-
-    Vector3 lastPosition;
 
     void Start()
     {
         parentInHierarchy = GameObject.Find("Footsteps");
         unit = gameObject.GetComponent<MovingUnit>();
-        footstepsAudio = Resources.LoadAll<AudioClip>("Footstep(Snow and Grass)");
         audioSource = GetComponent<AudioSource>();
     }
 
     public void EmitIdleFootsteps()
-    {
-        if (transform.position != lastPosition)
-        {
-            EmitFootstepLeft();
-            EmitFootstepRight();
-        }
+    { 
+        EmitFootstepLeft();
+        EmitFootstepRight();    
     }
 
     GameObject EmitFootstep()
@@ -46,22 +39,32 @@ public class FootstepsEmitter : MonoBehaviour
             footstep.transform.position = transform.position;
         }
         footstepsBuffer.Enqueue(footstep);
-
-        audioSource.clip = footstepsAudio[Random.Range(0, 29)];
-        audioSource.Play();
-
-        lastPosition = footstep.transform.position;
-
         return footstep;
     }
 
     public void EmitFootstepRight()
     {
-        EmitFootstep().GetComponent<SpriteRenderer>().flipY = false;
+        if (Options.FootstepsOn)
+        {
+            EmitFootstep().GetComponent<SpriteRenderer>().flipY = false;
+        }
+        if (Options.FootstepsSoundOn)
+        {
+            audioSource.clip = FootstepsSound.GetRandom();
+            audioSource.Play();
+        }
     }
 
     public void EmitFootstepLeft()
     {
-        EmitFootstep().GetComponent<SpriteRenderer>().flipY = true;
+        if (Options.FootstepsOn)
+        {
+            EmitFootstep().GetComponent<SpriteRenderer>().flipY = true;
+        }
+        if (Options.FootstepsSoundOn)
+        {
+            audioSource.clip = FootstepsSound.GetRandom();
+            audioSource.Play();
+        }
     }
 }

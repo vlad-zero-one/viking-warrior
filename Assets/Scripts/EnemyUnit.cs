@@ -18,7 +18,7 @@ public class EnemyUnit : EquippedUnit
     Coroutine pursuitEnenmyCoroutine;
     PlayerUnit playerUnit;
     Vector2 defaultPosition;
-    int giveExpirienceWhenDie = 1;
+    public int giveExpirienceWhenDie = 1;
 
     public override void Die()
     {
@@ -54,9 +54,10 @@ public class EnemyUnit : EquippedUnit
         }
         else if (TryFindPlayer)
         {
-            if (findPlayerTarget == null)
+            if (findPlayerTarget == Vector2.zero)
             {
                 findPlayerTarget = new Vector2(transform.position.x + Random.Range(-SightRange, SightRange), transform.position.y + Random.Range(-SightRange, SightRange));
+                //Debug.Log(findPlayerTarget.ToString());
             }
             if (Vector2.Distance(findPlayerTarget, transform.position) > 1f)
             {
