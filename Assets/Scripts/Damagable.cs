@@ -1,27 +1,31 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
 
 
 public class Damagable : MonoBehaviour
 {
-    public float Healthpoints = 10;
+    public float Healthpoints
+    {
+        set { _healthpoints = Healthpoints; }
+        get { return _healthpoints; }
+    }
 
+    [SerializeField] private float _healthpoints = 10;
     [SerializeField] private TakeDamageEvent _takeDamageEvent;
     [SerializeField] private UnityEvent _dieEvent;
 
 
     public void TakeDamage(float damage)
     {
-        if (Healthpoints > 0)
+        if (_healthpoints > 0)
         {
-            Healthpoints -= damage;
+            _healthpoints -= damage;
             _takeDamageEvent.Invoke(damage);
-            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+
             StartCoroutine(ChangeColor());
         }
-        if (Healthpoints == 0)
+        if (_healthpoints <= 0)
         {
             _dieEvent.Invoke();
             Die();
@@ -30,18 +34,19 @@ public class Damagable : MonoBehaviour
 
     public void Heal(float healPoints)
     {
-        Healthpoints += healPoints;
+        _healthpoints += healPoints;
         _takeDamageEvent.Invoke(-healPoints);
     }
 
-    public void SetHealthpoints(float healthpoints)
+    public void SetHealthpoints(float healthpointsAmount)
     {
-        _takeDamageEvent.Invoke(-(healthpoints - Healthpoints));
-        Healthpoints = healthpoints;
+        _takeDamageEvent.Invoke(-(healthpointsAmount - _healthpoints));
+        _healthpoints = healthpointsAmount;
     }
 
     IEnumerator ChangeColor()
     {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(1);
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }

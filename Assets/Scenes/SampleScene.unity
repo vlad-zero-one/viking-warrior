@@ -2211,7 +2211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44b1c9407c0703499e8faa1804c20fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Healthpoints: 10
+  _healthpoints: 10
   _takeDamageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -2238,7 +2238,7 @@ MonoBehaviour:
   LastMoveDirection: {x: 0.70710677, y: -0.70710677}
   AttackAngle: 90
   SightAngle: 180
-  BaseAttack: 10
+  BaseAttack: 0
   BaseAttackSpeed: 100
   EquippedItems:
   - Bodypart: RightHand
@@ -14216,7 +14216,7 @@ PrefabInstance:
     - target: {fileID: 1146130955652214934, guid: 8059849752827a24b8dfefa86ee950be,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1146130955652215020, guid: 8059849752827a24b8dfefa86ee950be,
         type: 3}
@@ -14272,6 +14272,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146130955652214928, guid: 8059849752827a24b8dfefa86ee950be,
+        type: 3}
+      propertyPath: _healthpoints
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8059849752827a24b8dfefa86ee950be, type: 3}
