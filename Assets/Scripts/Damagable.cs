@@ -43,7 +43,7 @@ public class Damagable : MonoBehaviour
     IEnumerator ChangeColor()
     {
         yield return new WaitForSeconds(1);
-        gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     public virtual void Die()

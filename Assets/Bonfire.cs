@@ -2,15 +2,23 @@
 
 public class Bonfire : MonoBehaviour
 {
-    public GameObject restButton;
+    [SerializeField] private GameObject _restButton;
     //GameObject _chooseSkillGameObject;
+
+    private void Start()
+    {
+        if (_restButton == null)
+        {
+            _restButton = GameObject.Find("MobileInputCanvas").transform.Find("Rest").gameObject;
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
         //_chooseSkillGameObject = GameObject.Find("ChooseSkill");
         if (!collider.isTrigger && collider.CompareTag("Player"))
         {
-            restButton.SetActive(true);
+            _restButton.SetActive(true);
         }
     }
 
@@ -20,15 +28,15 @@ public class Bonfire : MonoBehaviour
         if (!collider.isTrigger && collider.CompareTag("Player"))
         {
             // if ChooseSkill window is active call LearnLater()
-            Transform chooseSkill = restButton.transform.Find("ChooseSkill");
+            Transform chooseSkill = _restButton.transform.Find("ChooseSkill");
             if (chooseSkill)
             {
                 if (chooseSkill.gameObject.activeSelf)
                 {
-                    restButton.GetComponent<Rest>().LearnLater();
+                    _restButton.GetComponent<Rest>().LearnLater();
                 }
             }
-            restButton.SetActive(false);
+            _restButton.SetActive(false);
         }
     }
 }
