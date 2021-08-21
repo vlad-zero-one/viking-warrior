@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6ce702df7bc3a41828936f2842f461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Healthpoints: 10
+  _healthpoints: 10
   _takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -162,10 +162,9 @@ MonoBehaviour:
   SightRange: 5
   HearingRange: 10
   Atitude: hostile
-  ProvokedByPlayer: 0
-  ProvokedByEnemy: 0
-  TryFindPlayer: 0
   giveExpirienceWhenDie: 11
+  _deadPrefab: {fileID: 8237423572421962869, guid: f2860a4fe005de942b197bd3d3442ca6,
+    type: 3}
 --- !u!58 &1146130955652214929
 CircleCollider2D:
   m_ObjectHideFlags: 0
