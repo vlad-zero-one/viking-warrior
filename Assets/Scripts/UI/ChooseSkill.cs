@@ -14,7 +14,7 @@ public class ChooseSkill : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         _playerUnit = _player.GetComponent<PlayerUnit>();
         // heal player to the maximum
-        _playerUnit.Healthpoints = _playerUnit.MaximumHealthpoints;
+        _playerUnit.SetMaximumHealth();
  
         if (!_learnLater)
         {

@@ -20,7 +20,7 @@ public class HealthBar : MonoBehaviour
             _slider = GameObject.Find("HealthBar/Slider").GetComponent<Slider>();
         }
 
-        _maxHealth = _playerUnit.MaximumHealthpoints;
+        _maxHealth = _playerUnit.MaxumimHealthpoints;
         _currentHealth = _playerUnit.Healthpoints;
         _slider.value = _currentHealth / _maxHealth;
     }

@@ -6,10 +6,12 @@ using UnityEngine.Events;
 public class PlayerUnit : EquippedUnit
 {
     // UI attack control variables
+    [Header("UI ATTACK CONTROLL VARIABLES"), Space]
     public bool attackFromUI = false;
     public string bodyPartForAttackFromUI;
 
     // experience block
+    [Header("EXPERIENCE"), Space]
     public int Level = 1;
     public int AvailableSkillPoints = 0;
     public float Experience;
@@ -17,7 +19,6 @@ public class PlayerUnit : EquippedUnit
 
     public bool Silent = true;
 
-    public float MaximumHealthpoints = 20;
     // the maximum of the enemies can be attacked at the same time
     public int MaximumDamagablesToAttack = 1;
 
@@ -88,11 +89,11 @@ public class PlayerUnit : EquippedUnit
             if (TouchPadMove.moveDirection != Vector2.zero)
             {
                 _animator.speed = Speed * 0.5f;
-                _animator.Play("Moving" + Direction);
+                _animator.Play("Moving" + Direction.ToString());
             }
             else
             {
-                _animator.Play("Idle" + Direction);
+                _animator.Play("Idle" + Direction.ToString());
             }
         }
     }

@@ -1579,6 +1579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44b1c9407c0703499e8faa1804c20fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxumimHealthpoints: 20
   _healthpoints: 10
   _takeDamageEvent:
     m_PersistentCalls:
@@ -1602,7 +1603,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   Speed: 2
-  Direction: SE
+  Direction: 3
   LastMoveDirection: {x: 0.70710677, y: -0.70710677}
   AttackAngle: 90
   SightAngle: 180
@@ -1628,7 +1629,6 @@ MonoBehaviour:
   Experience: 0
   ExperienceToTheNextLevel: 10
   Silent: 1
-  MaximumHealthpoints: 20
   MaximumDamagablesToAttack: 1
   _experienceChangeEvent:
     m_PersistentCalls:
@@ -1914,7 +1914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
+  m_Color: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4184,7 +4184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
+  m_Color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7465,7 +7465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
+  m_Color: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

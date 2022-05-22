@@ -100,7 +100,10 @@ public class EnemyUnit : EquippedUnit
         if (!_animator.GetCurrentAnimatorStateInfo(0).IsTag("BasicEnemyAttacking"))
         {
             _animator.speed = 100 / BaseAttackSpeed;
-            if (Direction == "N" || Direction == "NE" || Direction == "E" || Direction == "SE")
+            if (Direction == Direction.N
+                || Direction == Direction.NE
+                || Direction == Direction.E
+                || Direction == Direction.SE)
             {
                 _animator.Play("AttackingE" + Random.Range(1, 3));
             }
@@ -120,11 +123,11 @@ public class EnemyUnit : EquippedUnit
             if (_provokedByPlayer ||  _provokedByEnemy || _tryFindPlayer || _goindToTheDefaultPosition)
             {
                 _animator.speed = Speed * 0.5f;
-                _animator.Play("Moving" + Direction);
+                _animator.Play("Moving" + Direction.ToString());
             }
             else
             {
-                _animator.Play("Idle" + Direction);
+                _animator.Play("Idle" + Direction.ToString());
             }
         }
     }

@@ -11,10 +11,12 @@ public class Damagable : MonoBehaviour
         get { return _healthpoints; }
     }
 
+    [SerializeField] private float _maxumimHealthpoints = 20;
     [SerializeField] private float _healthpoints = 10;
     [SerializeField] private TakeDamageEvent _takeDamageEvent;
     [SerializeField] private UnityEvent _dieEvent;
 
+    public float MaxumimHealthpoints => _maxumimHealthpoints;
 
     public void TakeDamage(float damage)
     {
@@ -32,16 +34,16 @@ public class Damagable : MonoBehaviour
         }
     }
 
-    public void Heal(float healPoints)
+    public void Heal(float value)
     {
-        _healthpoints += healPoints;
-        _takeDamageEvent.Invoke(-healPoints);
+        _healthpoints += value;
+        _takeDamageEvent.Invoke(-value);
     }
 
-    public void SetHealthpoints(float healthpointsAmount)
+    public void SetHealthpoints(float value)
     {
-        _takeDamageEvent.Invoke(-(healthpointsAmount - _healthpoints));
-        _healthpoints = healthpointsAmount;
+        _takeDamageEvent.Invoke(-(value - _healthpoints));
+        _healthpoints = value;
     }
 
     IEnumerator ChangeColor()
@@ -54,6 +56,11 @@ public class Damagable : MonoBehaviour
     public virtual void Die()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetMaximumHealth()
+    {
+        _healthpoints = _maxumimHealthpoints;
     }
 
     [System.Serializable]

@@ -30,7 +30,7 @@ public class Rest : MonoBehaviour, IPointerClickHandler
         else
         {
             // heal player to the maximum
-            _playerUnit.SetHealthpoints(_playerUnit.MaximumHealthpoints);
+            _playerUnit.SetMaximumHealth();
             // if its not call after LearnLater()
             if (!_learnLater)
             {

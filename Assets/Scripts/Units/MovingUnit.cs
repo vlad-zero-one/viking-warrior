@@ -3,7 +3,8 @@
 public class MovingUnit : Damagable
 {
     public int Speed = 1;
-    public string Direction = "SE";
+    //public string Direction = "SE";
+    public Direction Direction = Direction.SE;
     public Vector2 LastMoveDirection = new Vector2(1, -1).normalized;
 
     public void Move(Vector2 moveDirection)
@@ -26,28 +27,28 @@ public class MovingUnit : Damagable
         }
     }
 
-    public string GetDirection(Vector2 moveDirection)
+    public Direction GetDirection(Vector2 moveDirection)
     {
-        string returnDirection = "SE";
+        Direction returnDirection = Direction.SE;
         // getting the angle between X axis and move direction, about 45 degrees for each direction
         float angle = Vector2.SignedAngle(moveDirection.normalized, Vector2.right);
         if (moveDirection.normalized != Vector2.zero)
         {
             if (angle > 0)
             {
-                if (angle < 23) returnDirection = "E";
-                else if (angle < 68) returnDirection = "SE";
-                else if (angle < 113) returnDirection = "S";
-                else if (angle < 158) returnDirection = "SW";
-                else returnDirection = "W";
+                if (angle < 23) returnDirection = Direction.E;
+                else if (angle < 68) returnDirection = Direction.SE;
+                else if (angle < 113) returnDirection = Direction.S;
+                else if (angle < 158) returnDirection = Direction.SW;
+                else returnDirection = Direction.W;
             }
             else
             {
-                if (angle > -23) returnDirection = "E";
-                else if (angle > -68) returnDirection = "NE";
-                else if (angle > -113) returnDirection = "N";
-                else if (angle > -158) returnDirection = "NW";
-                else returnDirection = "W";
+                if (angle > -23) returnDirection = Direction.E;
+                else if (angle > -68) returnDirection = Direction.NE;
+                else if (angle > -113) returnDirection = Direction.N;
+                else if (angle > -158) returnDirection = Direction.NW;
+                else returnDirection = Direction.W;
             }
         }
         return returnDirection;
