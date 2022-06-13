@@ -29,33 +29,35 @@ public class Skills : MonoBehaviour
 
     private void LoadSkill(string skillName)
     {
-        switch (skillName)
-        {
-            case "EnlargedSightAngle":
-                EnlargedSightAngle();
-                break;
-            case "EnlargedAttackAngle":
-                EnlargedAttackAngle();
-                break;
-            case "MaximumAttackAngle":
-                MaximumAttackAngle();
-                break;
-            case "EnlargedMaximumDamagablesToAttack":
-                EnlargedMaximumDamagablesToAttack();
-                break;
-            case "CanUseTwoUltimatesAtOnce":
-                CanUseTwoUltimatesAtOnce();
-                break;
-            case "CanUseSpears":
-                CanUseSpears();
-                break;
-            case "AutoTargetSpears":
-                AutoTargetSpears();
-                break;
-            case "Lucky":
-                Lucky();
-                break;
-        }
+
+        typeof(Skills).GetMethod(skillName);
+        //switch (skillName)
+        //{
+        //    case "EnlargedSightAngle":
+        //        EnlargedSightAngle();
+        //        break;
+        //    case "EnlargedAttackAngle":
+        //        EnlargedAttackAngle();
+        //        break;
+        //    case "MaximumAttackAngle":
+        //        MaximumAttackAngle();
+        //        break;
+        //    case "EnlargedMaximumDamagablesToAttack":
+        //        EnlargedMaximumDamagablesToAttack();
+        //        break;
+        //    case "CanUseTwoUltimatesAtOnce":
+        //        CanUseTwoUltimatesAtOnce();
+        //        break;
+        //    case "CanUseSpears":
+        //        CanUseSpears();
+        //        break;
+        //    case "AutoTargetSpears":
+        //        AutoTargetSpears();
+        //        break;
+        //    case "Lucky":
+        //        Lucky();
+        //        break;
+        //}
     }
 
     private void Start()

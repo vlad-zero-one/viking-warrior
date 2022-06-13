@@ -3,7 +3,6 @@
 public class MovingUnit : Damagable
 {
     public int Speed = 1;
-    //public string Direction = "SE";
     public Direction Direction = Direction.SE;
     public Vector2 LastMoveDirection = new Vector2(1, -1).normalized;
 
