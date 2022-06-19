@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    private void Awake()
-    {
-        Time.timeScale = 0;
-    }
+    private const string TestSceneName = "TestScene";
 
-    private void OnDisable()
+    public void LoadTestScene()
     {
-        Time.timeScale = 1;
+        SceneManager.LoadScene(TestSceneName);
     }
 }
