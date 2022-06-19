@@ -129,18 +129,18 @@ public class SkillsManager : MonoBehaviour
     }
     private void CanUseTwoUltimatesAtOnce()
     {
-
+        Debug.Log("TBD");
     }
     private void CanUseSpears()
     {
-
+        Debug.Log("TBD");
     }
     private void AutoTargetSpears()
     {
-
+        Debug.Log("TBD");
     }
     private void EnhancedLuck()
     {
-
+        Debug.Log("TBD");
     }
 }

@@ -27,13 +27,13 @@ MonoBehaviour:
     Description: Can hit more enemies at once
   - Skill: 4
     Sprite: {fileID: 21300000, guid: c1a59a29ecb13d540bd4a6e8d0a9a302, type: 3}
-    Description: Can use two ultimates at once
+    Description: (TBD)Can use two ultimates at once
   - Skill: 5
     Sprite: {fileID: 21300000, guid: 5ee4e7163a3f3b24b80a30b0ed5dbf91, type: 3}
-    Description: Can use spears
+    Description: (TBD)Can use spears
   - Skill: 6
     Sprite: {fileID: 21300000, guid: 1a24aaf84d6997e4880a136638ddc803, type: 3}
-    Description: Auto target spears
+    Description: (TBD)Auto target spears
   - Skill: 7
     Sprite: {fileID: 21300000, guid: 294037cfcd779664e996e420d7331f63, type: 3}
-    Description: Increase luck
+    Description: (TBD)Increase luck
