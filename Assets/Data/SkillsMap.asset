@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db21c91c7c0a7c846ab804e0baa80deb, type: 3}
+  m_Name: SkillsMap
+  m_EditorClassIdentifier: 
+  Values:
+  - Skill: 0
+    Sprite: {fileID: 21300000, guid: ebf05ca819ed444429d6859319545189, type: 3}
+    Description: Enlarged sight angle
+  - Skill: 1
+    Sprite: {fileID: 21300000, guid: 38d89674e5499594ab41e7c161c3c44b, type: 3}
+    Description: Enlarged attack angle
+  - Skill: 2
+    Sprite: {fileID: 21300000, guid: 38eed86331203c646b7b85a9ba95d8b7, type: 3}
+    Description: Maximum attack angle
+  - Skill: 3
+    Sprite: {fileID: 21300000, guid: 005484db71f5f8e4c9ef7c71c9e7b837, type: 3}
+    Description: Can hit more enemies at once
+  - Skill: 4
+    Sprite: {fileID: 21300000, guid: c1a59a29ecb13d540bd4a6e8d0a9a302, type: 3}
+    Description: Can use two ultimates at once
+  - Skill: 5
+    Sprite: {fileID: 21300000, guid: 5ee4e7163a3f3b24b80a30b0ed5dbf91, type: 3}
+    Description: Can use spears
+  - Skill: 6
+    Sprite: {fileID: 21300000, guid: 1a24aaf84d6997e4880a136638ddc803, type: 3}
+    Description: Auto target spears
+  - Skill: 7
+    Sprite: {fileID: 21300000, guid: 294037cfcd779664e996e420d7331f63, type: 3}
+    Description: Increase luck

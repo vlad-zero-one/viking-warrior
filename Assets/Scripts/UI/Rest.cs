@@ -4,6 +4,10 @@ using UnityEngine.EventSystems;
 
 public class Rest : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField] private SkillsManager skillsManager;
+    [SerializeField] private GameObject skillButtonPrefab;
+    [SerializeField] private Transform buttonsRoot;
+
     private GameObject _player;
     private PlayerUnit _playerUnit;
     private Skills _skillsComponent;
@@ -20,6 +24,47 @@ public class Rest : MonoBehaviour, IPointerClickHandler
         _innerSkillsTransform = _chooseSkillTransform.Find("Skills");
     }
 
+    //public void OnPointerClick(PointerEventData data)
+    //{
+    //    // if ChooseSkill window already opened, second click on Rest button will call LearnLater()
+    //    if (_openedSkillChooser)
+    //    {
+    //        LearnLater();
+    //    }
+    //    else
+    //    {
+    //        // heal player to the maximum
+    //        _playerUnit.SetMaximumHealth();
+    //        // if its not call after LearnLater()
+    //        if (!_learnLater)
+    //        {
+    //            // getting three or less random available skills
+    //            string[] skills = _skillsComponent.ChooseSkill();
+    //            // if there are available skills and player has skill points let player choose skill
+    //            //(ChooseSkill GameObject already activated from the Inspector by pressing Rest button)
+    //            if (skills.Length > 0 && _playerUnit.AvailableSkillPoints > 0)
+    //            {
+    //                _openedSkillChooser = true;
+    //                foreach (string skillName in skills)
+    //                {
+    //                    CreateButton(skillName);
+    //                }
+    //            }
+    //            // else deactivate ChooseSkill window
+    //            else
+    //            {
+    //                _chooseSkillTransform.gameObject.SetActive(false);
+    //                _openedSkillChooser = false;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            _chooseSkillTransform.gameObject.SetActive(true);
+    //            _openedSkillChooser = true;
+    //        }
+    //    }
+    //}
+
     public void OnPointerClick(PointerEventData data)
     {
         // if ChooseSkill window already opened, second click on Rest button will call LearnLater()
@@ -35,15 +80,15 @@ public class Rest : MonoBehaviour, IPointerClickHandler
             if (!_learnLater)
             {
                 // getting three or less random available skills
-                string[] skills = _skillsComponent.ChooseSkill();
+                var skills = skillsManager.GetSkills();
                 // if there are available skills and player has skill points let player choose skill
                 //(ChooseSkill GameObject already activated from the Inspector by pressing Rest button)
-                if (skills.Length > 0 && _playerUnit.AvailableSkillPoints > 0)
+                if (skills.Count > 0 && _playerUnit.AvailableSkillPoints > 0)
                 {
                     _openedSkillChooser = true;
-                    foreach (string skillName in skills)
+                    foreach (var skillData in skills)
                     {
-                        CreateButton(skillName);
+                        InstantiateSkillButton(skillData);
                     }
                 }
                 // else deactivate ChooseSkill window
@@ -61,6 +106,35 @@ public class Rest : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    private void InstantiateSkillButton(SkillsMapItem skillData)
+    {
+        var button = Instantiate(skillButtonPrefab, buttonsRoot);
+
+        button.GetComponent<Button>()
+            .onClick
+            .AddListener(delegate {
+                skillsManager.LearnSkill(skillData.Skill);
+                _playerUnit.AvailableSkillPoints--;
+                CloseSkillChooser2();
+            });
+
+        button.GetComponent<Image>().overrideSprite = skillData.Sprite;
+
+        button.GetComponentInChildren<Text>().text = skillData.Description;
+    }
+
+    // closing Skill Choose
+    private void CloseSkillChooser2()
+    {
+        foreach (Transform button in buttonsRoot)
+        {
+            Destroy(button.gameObject);
+        }
+
+        _learnLater = false;
+        _chooseSkillTransform.gameObject.SetActive(false);
+        _openedSkillChooser = false;
+    }
     private void CreateButton(string name)
     {
         var prefabButton = Resources.Load("ChooseSkillButtons/" + name);

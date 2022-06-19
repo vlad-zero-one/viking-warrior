@@ -7,5 +7,5 @@
     CanUseTwoUltimatesAtOnce,
     CanUseSpears,
     AutoTargetSpears,
-    Lucky
+    EnhancedLuck
 }

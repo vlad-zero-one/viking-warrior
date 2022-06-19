@@ -6,9 +6,15 @@ using Random = UnityEngine.Random;
 
 public class SkillsManager : MonoBehaviour
 {
+    private const int SkillsReturnedInGetSkills = 3;
+
+    [SerializeField] private SkillsMap _skillsMap;
+    
+    public SkillsMap SkillsConfig => _skillsMap;
+
     private List<Skill> _learnedSkills = new List<Skill>();
 
-    private static Dictionary<Skill, Skill> _blockedSkills = new Dictionary<Skill, Skill>
+    private Dictionary<Skill, Skill> _blockedSkills = new Dictionary<Skill, Skill>
     {
         { Skill.CanUseSpears,  Skill.AutoTargetSpears },
         { Skill.EnlargedAttackAngle, Skill.MaximumAttackAngle },
@@ -47,8 +53,36 @@ public class SkillsManager : MonoBehaviour
     }
     private void ExecuteMethodByEnumValue(Skill skill)
     {
-        var skillName = Enum.GetName(typeof(Skill), skill);
-        typeof(SkillsManager).GetMethod(skillName);
+        //var skillName = Enum.GetName(typeof(Skill), skill);
+        //typeof(SkillsManager).GetMethod(skillName);
+
+        switch (skill)
+        {
+            case Skill.EnlargedSightAngle:
+                EnlargedSightAngle();
+                break;
+            case Skill.EnlargedAttackAngle:
+                EnlargedAttackAngle();
+                break;
+            case Skill.MaximumAttackAngle:
+                MaximumAttackAngle();
+                break;
+            case Skill.EnlargedMaximumDamagablesToAttack:
+                EnlargedMaximumDamagablesToAttack();
+                break;
+            case Skill.CanUseTwoUltimatesAtOnce:
+                CanUseTwoUltimatesAtOnce();
+                break;
+            case Skill.CanUseSpears:
+                CanUseSpears();
+                break;
+            case Skill.AutoTargetSpears:
+                AutoTargetSpears();
+                break;
+            case Skill.EnhancedLuck:
+                EnhancedLuck();
+                break;
+        }
     }
 
     private object GetRandomUnlearnedSkillOrDefault()
@@ -59,11 +93,11 @@ public class SkillsManager : MonoBehaviour
             return null;
     }
 
-    public List<Skill> GetSkills()
+    public List<SkillsMapItem> GetSkills()
     {
         var skillsList = new List<Skill>();
 
-        while (_availableSkills.Count > 0)
+        while (_availableSkills.Count > 0 && skillsList.Count < SkillsReturnedInGetSkills)
         {
             var skill = GetRandomUnlearnedSkillOrDefault();
 
@@ -74,7 +108,7 @@ public class SkillsManager : MonoBehaviour
             skillsList.Add((Skill)skill);
         }
 
-        return skillsList;
+        return _skillsMap.Values.Where(skillData => skillsList.Contains(skillData.Skill)).ToList();
     }
 
     private void EnlargedSightAngle()
@@ -105,7 +139,7 @@ public class SkillsManager : MonoBehaviour
     {
 
     }
-    private void Lucky()
+    private void EnhancedLuck()
     {
 
     }

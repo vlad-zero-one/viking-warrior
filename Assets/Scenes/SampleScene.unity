@@ -3490,6 +3490,7 @@ GameObject:
   - component: {fileID: 767592958}
   - component: {fileID: 767592957}
   - component: {fileID: 767592960}
+  - component: {fileID: 767592961}
   m_Layer: 5
   m_Name: Rest
   m_TagString: Untagged
@@ -3622,6 +3623,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab568a2fc6c940642a0429b0e34bd22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillsManager: {fileID: 767592961}
+  skillButtonPrefab: {fileID: 7867679241393029921, guid: 93f3102197f3e63479deea5f3dbfc91d,
+    type: 3}
+  buttonsRoot: {fileID: 1892043767}
+--- !u!114 &767592961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767592955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c23c0d898c91748bddad6595febaec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillsMap: {fileID: 11400000, guid: 73c5a45ab6643c84e9bfa6e3c35c671d, type: 2}
 --- !u!1 &792033771
 GameObject:
   m_ObjectHideFlags: 0
