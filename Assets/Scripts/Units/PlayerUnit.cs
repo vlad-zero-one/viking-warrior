@@ -36,8 +36,8 @@ public class PlayerUnit : EquippedUnit
     {
         _animator = GetComponent<Animator>();
 
-        BodyItem helmet = CreateBodyItem("Head", new Item("Helmet", 120));
-        var oldItem = SwapItem(new BodyItem("Head", new Item("Mask", 10)));
+        //BodyItem helmet = CreateBodyItem(Bodypart.Head, new Item("Helmet", 120));
+        //var oldItem = SwapItem(new BodyItem(Bodypart.Head, new Item("Mask", 10)));
     }
 
     void Update()

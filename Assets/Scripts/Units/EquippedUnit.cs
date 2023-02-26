@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public class EquippedUnit : AttackingUnit
 {
-    [System.Serializable]
+    [Serializable]
     public struct BodyItem
     {
-        public string Bodypart;
+        public Bodypart Bodypart;
         public Item Item;
 
-        public BodyItem(string bodypart, Item item)
+        public BodyItem(Bodypart bodypart, Item item)
         {
             Bodypart = bodypart;
             Item = item;
@@ -16,7 +18,7 @@ public class EquippedUnit : AttackingUnit
 
         public string Represent()
         {
-            return "Bodypart: " + Bodypart + "\n" + Item.Represent();
+            return "Bodypart: " + Bodypart.ToString() + "\n" + Item.ToString();
         }
 
     }
@@ -24,39 +26,27 @@ public class EquippedUnit : AttackingUnit
     public List<BodyItem> EquippedItems = new List<BodyItem>();
 
 
-    public BodyItem CreateBodyItem(string bodypart, Item item)
+    public BodyItem CreateBodyItem(Bodypart bodypart, Item item)
     {
-        BodyItem created = new BodyItem();
-        bool occupiedBodypart = false;
-        foreach (var bodyItem in EquippedItems)
+        if (EquippedItems.Where(bodyItem => bodyItem.Bodypart == bodypart).Count() == 0)
         {
-            if (bodyItem.Bodypart == bodypart)
-            {
-                occupiedBodypart = true;
-            }
-        }
-        if (!occupiedBodypart)
-        {
-            created.Bodypart = bodypart;
-            created.Item = item;
+            var created = new BodyItem(bodypart, item);
             EquippedItems.Add(created);
+            return created;
         }
         else
         {
-            throw new System.Exception("This bodypart is already equipped!");
+            throw new Exception("This bodypart is already equipped!");
         }
-        return created;
     }
 
-    public void DeleteItem(string bodypart)
+    public void DeleteItem(Bodypart bodypart)
     {
-        foreach (var bodyItem in EquippedItems)
+        var bodyItems = EquippedItems.Where(bodyItem => bodyItem.Bodypart == bodypart);
+
+        if (bodyItems.Count() != 0)
         {
-            if(bodyItem.Bodypart == bodypart)
-            {
-                EquippedItems.Remove(bodyItem);
-                break;
-            }
+            EquippedItems.Remove(bodyItems.First());
         }
     }
 
@@ -78,7 +68,7 @@ public class EquippedUnit : AttackingUnit
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class Item
 {
     public int Durability = 100;
@@ -90,7 +80,7 @@ public class Item
         Durability = durability;
     }
 
-    public string Represent()
+    public override string ToString()
     {
         return  "Name: " + Name + "\n" + "Durability: " + Durability;
     }

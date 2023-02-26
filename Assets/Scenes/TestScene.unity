@@ -1462,19 +1462,7 @@ MonoBehaviour:
   SightAngle: 180
   BaseAttack: 10
   BaseAttackSpeed: 100
-  EquippedItems:
-  - Bodypart: RightHand
-    Item:
-      Durability: 100
-      Name: Axe
-  - Bodypart: Torso
-    Item:
-      Durability: 200
-      Name: Cirass
-  - Bodypart: Legs
-    Item:
-      Durability: 20
-      Name: Leather Boots
+  EquippedItems: []
   attackFromUI: 0
   bodyPartForAttackFromUI: 
   Level: 2
@@ -1608,7 +1596,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273161994}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!82 &273162004
 AudioSource:
   m_ObjectHideFlags: 0
